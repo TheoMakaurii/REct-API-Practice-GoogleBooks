@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+const base_URL= `https://www.googleapis.com/books/v1/volumes?q=`
+
+class App extends React.Component {
+
+  state={
+    items: []
+  }
+
+  componentDidMount(){
+  fetch( base_URL+"harry-potter")
+  .then(res => res.json())
+  .then(data=> this.setState({items: data.items[0].volumeInfo.title}) )
+
+  }
+
+  render(){
+  // const books = this.state.items.map(el => <li>{el}</li>)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <main className='App'>
+      {this.state.items}
+    </main>
+  );}
+
 }
 
 export default App;
