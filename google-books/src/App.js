@@ -5,10 +5,7 @@ const base_URL = `https://www.googleapis.com/books/v1/volumes?q=`
 class App extends React.Component {
 
   state = {
-    items: [],
-    volumeInfo: {},
-    title: []
-
+    items: []
   }
 
   componentDidMount() {
@@ -16,24 +13,22 @@ class App extends React.Component {
       .then(res => res.json())
       .then(data => {
         this.setState({
-          items: data.items,
-          volumeInfo: data.items.map(item => item.volumeInfo),
-          title: data.items.map(item => item.volumeInfo.title)
-
+          items: data.items
         })
       })
   }
 
   render() {
-    console.log('rendering...', this.state.volumeInfo)
-    const books = this.state.title.map(el => <li>{el}</li>)
-    const volume = Object.keys(this.state.volumeInfo).map((vol) => {
-     return <li>{this.state.volumeInfo.vol}</li>
-    } )
+    console.log('rendering...', this.state.items)
+    const books = this.state.items.map(el => <li>
+      <p>{el.volumeInfo.title}</p>
+    <p>{el.volumeInfo.authors}</p>
+    <p>{el.saleInfo.isEbook ? 'Ebook' : 'Not EBook'}</p>
+    <img src={el.volumeInfo.imageLinks.thumbnail} alt="Harry Potter"/>
+      </li>)
     return (
       <main className='App'>
         {books}
-        {volume}
       </main>
     );
   }
